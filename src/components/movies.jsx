@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import Like from "../components/common/like";
+import Pagination from "../components/common/pagination";
 import { getMovies } from "../services/fakeMovieService";
 
 class Movies extends Component {
   state = {
-    movies: getMovies()
+    movies: getMovies(),
+    pageSize: 4,
+    currentPage: 1
   };
 
   handleLike = movie => {
@@ -24,8 +27,13 @@ class Movies extends Component {
     this.setState({ movies: movies });
   };
 
+  handlePageChange = page => {
+    this.setState({ currentPage: page });
+  };
+
   render() {
     const { length: count } = this.state.movies;
+    const { pageSize, currentPage } = this.state;
 
     if (count === 0) return <p>There are no movies in the database</p>;
 
@@ -68,6 +76,12 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination
+          itensCount={count}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     );
   }
