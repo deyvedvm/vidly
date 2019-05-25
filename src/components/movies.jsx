@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import ListGroup from "../components/common/listGroup";
 import MoviesTable from "./moviesTable";
 import Pagination from "../components/common/pagination";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "../utils/paginate";
+
+import { getMovies, deleteMovie } from "../services/fakeMovieService";
+import { getGenres } from "../services/fakeGenreService";
 
 import _ from "lodash";
 
@@ -38,7 +40,10 @@ class Movies extends Component {
 
   handleDelete = movie => {
     const movies = this.state.movies.filter(m => m._id !== movie._id);
+
     this.setState({ movies: movies });
+
+    deleteMovie(movie._id);
   };
 
   handlePageChange = page => {
@@ -93,6 +98,14 @@ class Movies extends Component {
         </div>
 
         <div className="col">
+          <Link
+            to="/movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            New Movie
+          </Link>
+
           <p>Showing {totalCount} movies in the database</p>
 
           <MoviesTable
