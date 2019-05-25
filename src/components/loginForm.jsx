@@ -1,13 +1,26 @@
 import React, { Component } from "react";
 import Input from "./common/input";
 
+import Joi from "joi-browser";
+
 class LoginForm extends Component {
   state = {
     account: { username: "", password: "" },
     errors: {}
   };
 
+  schema = {
+    username: Joi.string().required(),
+    password: Joi.string().required()
+  };
+
   validate = () => {
+    const result = Joi.validate(this.state.account, this.schema, {
+      abortEarly: false
+    });
+
+    console.log(result);
+
     const errors = {};
 
     const { account } = this.state;
