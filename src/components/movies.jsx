@@ -8,7 +8,7 @@ import SearchBox from "./searchBox";
 import { paginate } from "../utils/paginate";
 
 import { getMovies, deleteMovie } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getGenres } from "../services/genreService";
 
 import _ from "lodash";
 
@@ -23,8 +23,10 @@ class Movies extends Component {
     sortColumn: { path: "title", order: "asc" }
   };
 
-  componentDidMount() {
-    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
+  async componentDidMount() {
+    const { data } = await getGenres();
+
+    const genres = [{ _id: "", name: "All Genres" }, ...data];
 
     this.setState({ movies: getMovies(), genres: genres });
   }
