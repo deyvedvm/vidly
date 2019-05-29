@@ -1,6 +1,6 @@
 import http from "./httpService";
 
-import { apiUrl } from '../config.json';
+import { apiUrl } from "../config.json";
 
 const apiEndPoint = `${apiUrl}/movies`;
 
@@ -10,6 +10,14 @@ function movieUrl(id) {
 
 export function getMovies() {
   return http.get(apiEndPoint);
+}
+
+export function getMovie(movieId) {
+  return http.get(movieUrl(movieId));
+}
+
+export function saveMovie(movie) {
+  return http.post(apiEndPoint, movie);
 }
 
 export function deleteMovie(movieId) {
