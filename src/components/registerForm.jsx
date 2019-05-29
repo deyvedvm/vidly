@@ -1,5 +1,7 @@
 import React from "react";
 
+import { toast } from "react-toastify";
+
 import Form from "./common/form";
 
 import Joi from "joi-browser";
@@ -27,7 +29,15 @@ class RegisterForm extends Form {
   };
 
   doSubmit = async () => {
-    await userService.register(this.state.data);
+    try {
+      await userService.register(this.state.data);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {
