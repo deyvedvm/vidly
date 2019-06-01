@@ -43,6 +43,7 @@ class LoginForm extends Form {
   };
 
   render() {
+    // When the user is logged he is redirected to /profile
     if (auth.getCurrentUser()) return <Redirect to="/" />;
 
     return (
